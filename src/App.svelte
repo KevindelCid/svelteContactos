@@ -6,6 +6,8 @@
 		email: "",
 		telefono: null,
 	};
+
+	let mostrarPersonas = ()=>{
 	fetch("http://127.0.0.1:8000/api/auth/sveltelistar")
 		.then((respuesta) => respuesta.json())
 		.then((datosRespuesta) => {
@@ -19,6 +21,36 @@
 			console.log(personas);
 		})
 		.catch(console.log);
+	}
+
+	let agregarPersona =()=>{
+
+		const nuevaPersona ={
+			id:datosPersonas.id,
+			name:datosPersonas.name,
+			email:datosPersonas.email,
+			telefono:datosPersonas.telefono
+
+		}
+
+		fetch("http://127.0.0.1:8000/api/auth/icontact",{
+			method:"POST",
+			body:JSON.stringify(nuevaPersona)
+
+		})
+		.then((respuesta) => respuesta.json())
+		.then((datosRespuesta) => {
+			console.log(datosRespuesta);
+		
+			
+	mostrarPersonas();
+		})
+		.catch(console.log);
+	}
+
+
+
+	mostrarPersonas();
 	// []
 </script>
 
@@ -32,10 +64,11 @@
 						<div class="mb-3">
 							<label for="" class="form-label">Nombre</label>
 							<input
+							bind:value={datosPersonas.name}
 								type="text"
 								class="form-control"
-								name=""
-								id=""
+								name="name"
+								id="name"
 								aria-describedby="helpId"
 								placeholder=""
 							/>
@@ -45,10 +78,11 @@
 								>Correo Electronico</label
 							>
 							<input
+							bind:value={datosPersonas.email}
 								type="text"
 								class="form-control"
-								name=""
-								id=""
+								name="email"
+								id="email"
 								aria-describedby="helpId"
 								placeholder=""
 							/>
@@ -56,6 +90,7 @@
 						<div class="mb-3">
 							<label for="" class="form-label">Telefono</label>
 							<input
+							bind:value={datosPersonas.telefono}
 								type="text"
 								class="form-control"
 								name=""
@@ -65,11 +100,12 @@
 							/>
 						</div>
 						<button type="button" class="btn btn-primary"
+						on:click|preventDefault={agregarPersona}
 							>Agregar Contacto</button
 						>
-						<button type="button" class="btn btn-primary"
+						<!-- <button type="button" class="btn btn-primary"
 							>Actualizar</button
-						>
+						> -->
 					</form>
 				</div>
 			</div>
@@ -93,6 +129,13 @@
 						<td>{persona.name}</td>
 						<td>{persona.email}</td>
 						<td>{persona.telefono} </td>
+						<td>
+							<button type="submit" name="editar" class="btn btn-warning"
+							
+							>Editar</button>
+							
+							| <button type="submit" name="eliminar" class="btn btn-danger">Eliminar</button>
+						</td>
 					</tr>
 					{/each}
 				</tbody>
