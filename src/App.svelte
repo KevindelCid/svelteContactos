@@ -1,13 +1,19 @@
 <script>
-	import { paginate, LightPaginationNav } from 'svelte-paginate'
-let personas = [];
-$: items = personas;
-let currentPage = 1;
-let pageSize = 4;
-$: paginatedItems = paginate({ items, pageSize, currentPage });
+	import { paginate, DarkPaginationNav } from "svelte-paginate";
+	let personas = [];
+	$: items = busqueda;
+	let currentPage = 1;
+	let pageSize = 4;
+	$: paginatedItems = paginate({ items, pageSize, currentPage });
+	let buscar = "";
 
+	$: busqueda = personas.filter((personita)=>{
+		currentPage = 1;
+		return  personita.nombre_trabajador.toLowerCase().includes(buscar.toLowerCase()) || personita.dpi.toLowerCase().includes(buscar.toLowerCase())
+		|| personita.telefonos.toLowerCase().includes(buscar.toLowerCase())  || personita.esquema_vacunas.toLowerCase().includes(buscar.toLowerCase());
+	});
+	$: console.log(busqueda);
 
-	
 	let datoPersona = {
 		nombre_trabajador: null,
 		sexo: null,
@@ -62,7 +68,6 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 				console.log(personas);
 			})
 			.catch(console.log);
-			alert(items);
 	};
 
 	//continuar con la edicion
@@ -136,13 +141,9 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 
 
 
-<style>
-	.cosa {
-		margin-top: 15px;
-	}
-</style>
 
-<div class="cosa">
+
+<div class="cosa" style="margin-top:20px;">
 	<div class="col-md-12">
 		<div class="box">
 			<!-- <h3 class="heading">How Can We Help?</h3> -->
@@ -150,7 +151,7 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 				<div class="row">
 					<div class="col-md-5 form-group">
 						<!-- ////////////////////////////// -->
-
+<h3>Ingresar o actualizar a una persona</h3>
 						<form action="">
 							<div class="col-md-12">
 								<div class="box">
@@ -384,6 +385,10 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 						<!-- /////////////////// -->
 					</div>
 					<div class="col-md-7 form-group">
+<h3>Buscar Personas</h3>
+						<input type="text" class="form-control" name="buscar" id="buscar" placeholder="Buscar..." bind:value={buscar}>
+
+
 						<table class="table">
 							<thead>
 								<tr>
@@ -395,6 +400,7 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 								</tr>
 							</thead>
 							<tbody>
+								{#if busqueda.length}
 								{#each paginatedItems as persona}
 									<tr>
 										<td>{persona.correlativo}</td>
@@ -419,16 +425,19 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 										</td>
 									</tr>
 								{/each}
+								{:else}
+								<span>Ninguna personas se identifica con: "{buscar}"</span>
+								{/if}
 							</tbody>
 						</table>
-						<LightPaginationNav
-  totalItems="{items.length}"
-  pageSize="{pageSize}"
-  currentPage="{currentPage}"
-  limit="{1}"
-  showStepOptions="{true}"
-  on:setPage="{(e) => currentPage = e.detail.page}"
-/>
+						<DarkPaginationNav
+							totalItems={items.length}
+							{pageSize}
+							{currentPage}
+							limit={1}
+							showStepOptions={true}
+							on:setPage={(e) => (currentPage = e.detail.page)}
+						/>
 					</div>
 				</div>
 			</div>
@@ -436,4 +445,8 @@ $: paginatedItems = paginate({ items, pageSize, currentPage });
 	</div>
 </div>
 
-
+<style>
+	.cosa {
+		margin-top: 15px;
+	}
+</style>
