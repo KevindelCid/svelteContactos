@@ -1,5 +1,13 @@
 <script>
-	let personas = [];
+	import { paginate, LightPaginationNav } from 'svelte-paginate'
+let personas = [];
+$: items = personas;
+let currentPage = 1;
+let pageSize = 4;
+$: paginatedItems = paginate({ items, pageSize, currentPage });
+
+
+	
 	let datoPersona = {
 		nombre_trabajador: null,
 		sexo: null,
@@ -54,6 +62,7 @@
 				console.log(personas);
 			})
 			.catch(console.log);
+			alert(items);
 	};
 
 	//continuar con la edicion
@@ -124,6 +133,9 @@
 
 	// []
 </script>
+
+
+
 <style>
 	.cosa {
 		margin-top: 15px;
@@ -383,7 +395,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{#each personas as persona}
+								{#each paginatedItems as persona}
 									<tr>
 										<td>{persona.correlativo}</td>
 										<td>{persona.nombre_trabajador}</td>
@@ -409,6 +421,14 @@
 								{/each}
 							</tbody>
 						</table>
+						<LightPaginationNav
+  totalItems="{items.length}"
+  pageSize="{pageSize}"
+  currentPage="{currentPage}"
+  limit="{1}"
+  showStepOptions="{true}"
+  on:setPage="{(e) => currentPage = e.detail.page}"
+/>
 					</div>
 				</div>
 			</div>
