@@ -3,14 +3,16 @@
 	let personas = [];
 	$: items = busqueda;
 	let currentPage = 1;
-	let pageSize = 4;
+	let pageSize = 8;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
 	let buscar = "";
 
 	$: busqueda = personas.filter((personita)=>{
 		currentPage = 1;
 		return  personita.nombre_trabajador.toLowerCase().includes(buscar.toLowerCase()) || personita.dpi.toLowerCase().includes(buscar.toLowerCase())
-		|| personita.telefonos.toLowerCase().includes(buscar.toLowerCase())  || personita.esquema_vacunas.toLowerCase().includes(buscar.toLowerCase());
+		|| personita.telefonos.toLowerCase().includes(buscar.toLowerCase())  || personita.esquema_vacunas.toLowerCase().includes(buscar.toLowerCase())
+		|| personita.departamento.toLowerCase().includes(buscar.toLowerCase()) || personita.municipio.toLowerCase().includes(buscar.toLowerCase())
+		|| personita.aldea_barrio_ref.toLowerCase().includes(buscar.toLowerCase());
 	});
 	
 
@@ -65,7 +67,7 @@
 					email: "",
 					telefono: null,
 				};
-				console.log(personas);
+				
 			})
 			.catch(console.log);
 	};
@@ -149,7 +151,7 @@
 
 
 
-<div class="cosa" style="margin-top:20px;">
+<div class="cosa" style="margin-top:50px;">
 	<div class="col-md-12">
 		<div class="box">
 			<!-- <h3 class="heading">How Can We Help?</h3> -->
