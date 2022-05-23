@@ -12,7 +12,7 @@
 		return  personita.nombre_trabajador.toLowerCase().includes(buscar.toLowerCase()) || personita.dpi.toLowerCase().includes(buscar.toLowerCase())
 		|| personita.telefonos.toLowerCase().includes(buscar.toLowerCase())  || personita.esquema_vacunas.toLowerCase().includes(buscar.toLowerCase());
 	});
-	$: console.log(busqueda);
+	
 
 	let datoPersona = {
 		nombre_trabajador: null,
@@ -76,7 +76,8 @@
 	};
 
 	let actualizarPersona = () => {
-		console.log(JSON.stringify(datoPersona));
+		if(datoPersona.id_worker){
+		
 		fetch(
 			"http://127.0.0.1:8000/api/auth/llseditar/" + datoPersona.id_worker,
 			{
@@ -90,10 +91,15 @@
 				body: JSON.stringify(datoPersona),
 			}
 		);
-
-		alert("The worker has been updated");
+		
+		
+		alert("El trabajador ha sido actualizado");
 		mostrarPersonas();
 		limpiar();
+		} else{
+
+			alert("Necesitas primero seleccionar un trabajador");
+		}
 	};
 
 	let agregarPersona = () => {
@@ -114,7 +120,7 @@
 			fecha_ingreso: datoPersona.fecha_ingreso,
 		};
 
-		console.log(nuevaPersona);
+		
 
 		fetch("http://127.0.0.1:8000/api/auth/llsinsert", {
 			method: "POST",
@@ -126,7 +132,7 @@
 		})
 			.then((respuesta) => respuesta.json())
 			.then((datosRespuesta) => {
-				console.log(datosRespuesta);
+				
 				mostrarPersonas();
 				alert("New Worker inserted in the data base");
 				limpiar();
