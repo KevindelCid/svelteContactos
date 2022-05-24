@@ -3,7 +3,7 @@
 	let personas = [];
 	$: items = busqueda;
 	let currentPage = 1;
-	let pageSize = 8;
+	let pageSize = 6;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
 	let buscar = "";
 
