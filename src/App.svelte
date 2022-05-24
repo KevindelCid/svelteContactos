@@ -159,7 +159,7 @@
 				<div class="row">
 					<div class="col-md-5 form-group">
 						<!-- ////////////////////////////// -->
-<h3>Ingresar o actualizar a una persona</h3>
+<h3>Ingresar o actualizar a una persona </h3>
 						<form action="">
 							<div class="col-md-12">
 								<div class="box">
@@ -368,7 +368,7 @@
 												/>
 											</div>
 
-											<div class="col-md-8 form-group">
+											<div class="col-md-7 form-group">
 												<button
 													type="button"
 													class="btn btn-primary form-control"
@@ -379,10 +379,14 @@
 											<div class="col-md-4 form-group">
 												<button
 													type="button"
-													class="btn btn-primary form-control"
+													class="btn btn-warning form-control"
 													on:click|preventDefault={actualizarPersona}
 													>Upgrade Worker</button
 												>
+											</div>
+											<div class="col-md-1 form-group">
+											
+											<button class="btn btn-danger" on:click|preventDefault={limpiar} >X </button>
 											</div>
 										</div>
 									</div>
